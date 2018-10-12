@@ -1,0 +1,23 @@
+.\" Manpage for mstatus.
+.TH mstatus 1 "2018 Sep 21" "1.0" "mstatus man page"
+.SH NAME
+mstatus \- Add information to .plan file
+.SH SYNOPSIS
+mstatus {login|logout|xlock|unxlock} [message]
+.SH DESCRIPTION
+mstatus adds user activity information to a .plan file. 
+.SH OPTIONS
+.IP "login"
+ User has logged in.
+.IP "logout"
+ User has logged out.
+.IP "xlock"
+ Locks the x server and refuses new connections.
+.IP "unxlock"
+ Unlock xlock.
+.IP "message"
+ Optional message.
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Simon Mellberg (hed16smg)

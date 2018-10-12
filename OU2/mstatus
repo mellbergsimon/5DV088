@@ -1,0 +1,71 @@
+#!/bin/bash
+
+PLANFILE=.plan
+NUM_LINES=4
+arg=$1
+message=$2
+
+function plansetup {
+	if [ ! -e .plan ]; then
+		touch .plan
+	fi
+}
+
+function write {
+	echo "$(date '+%y-%m-%d %H:%M:%S'): $@" >> .plan
+}
+
+function plan {
+	words=( $(wc -l ".plan"))
+	
+	while [ $words -ge 5 ]
+	do
+		sed -i '1d' .plan
+		words=( $(wc -l ".plan"))
+	done
+	
+	write $@
+}
+
+plansetup
+
+function error {
+	echo 1>&2 "Usage: {login|logout|xlock|unxlock} [message]"
+    exit 1;
+}
+
+if [ $# -lt 1 ]; then
+	error
+fi
+
+
+if [ $# -eq 1 ]; then
+	case $1 in
+	"login") plan "logged in on $(uname -n)"
+		;;
+	"logout") plan "logged out from $(uname -n)"
+		;;
+	"xlock") plan "xlocked $(uname -n)"
+		;;
+	"unxlock") plan "un-xlocked $(uname -n)"
+		;;
+	*) error
+		;;
+	esac	
+elif [ $# -eq 2 ]; then
+	case $1 in
+	"login") plan "logged in on $(uname -n) with message \"$message\""
+		;;
+	"logout") plan "logged out from $(uname -n) with message \"$message\""
+		;;
+	"xlock") plan "xlocked $(uname -n) with message \"$message\""
+		;;
+	"unxlock") plan "un-xlocked $(uname -n) with message \"$message\""
+		;;
+	*) error
+		;;
+	esac	
+fi
+
+exit 0;
+
